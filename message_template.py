@@ -1,0 +1,22 @@
+MESSAGE = {
+    100: {'msg': 'Continue'},
+    101: {'msg': 'Switching Protocols'},
+    200: {'msg': 'OK'},
+    201: {'msg': 'Data has been created'},
+    202: {'msg': 'Data has been updated'},
+    204: {'msg': 'No Content'},
+    301: {'msg': 'Moved Permanently'},
+    302: {'msg': 'Found'},
+    304: {'msg': 'Not Modified'},
+    400: {'msg': 'Bad Request'},
+    401: {'msg': 'Unauthorized'},
+    403: {'msg': 'Forbidden'},
+    404: {'msg': 'Data not found'},
+    405: {'msg': 'Method Not Allowed'},
+    409: {'msg': 'Conflict'},
+    500: {'msg': 'Internal Server Error'},
+    501: {'msg': 'Not Implemented'},
+    502: {'msg': 'Bad Gateway'},
+    503: {'msg': 'Service Unavailable'},
+    504: {'msg': 'Gateway Timeout'}
+}
