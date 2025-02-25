@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import db, User, Region, GuardPost, Crowded
 from message_template import MESSAGE as message
+from flask_jwt_extended import jwt_required
 
 routes = Blueprint('routes', __name__)
 
@@ -53,6 +54,7 @@ def delete_user(id):
 
 # ================== REGION ==================
 @routes.route('/region', methods=['POST'])
+@jwt_required()
 def create_region():
     data = request.get_json()
     region = Region(location=data['location'], passkey=data['passkey'])
@@ -61,11 +63,13 @@ def create_region():
     return jsonify(region.todict()), 201
 
 @routes.route('/region', methods=['GET'])
+@jwt_required()
 def get_regions():
     regions = Region.query.all()
     return jsonify([region.todict() for region in regions]), 200
 
 @routes.route('/region/<int:id>', methods=['GET'])
+@jwt_required()
 def get_region(id):
     region = Region.query.get(id)
     if region is None:
@@ -74,6 +78,7 @@ def get_region(id):
     return jsonify(region.todict()), 200
 
 @routes.route('/region/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_region(id):
     
     region = Region.query.get(id)
@@ -88,6 +93,7 @@ def update_region(id):
     return jsonify(region.todict()), 200
 
 @routes.route('/region/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_region(id):
     region = Region.query.get(id)
     if region is None:
@@ -102,6 +108,7 @@ def delete_region(id):
 # ================== CROWDED ==================
 
 @routes.route('/crowded', methods=['POST'])
+@jwt_required()
 def create_crowded():
     data = request.get_json()
     crowded = Crowded(time_detect=data['time_detect'], vehicle_number=data['vehicle_number'])
@@ -110,11 +117,13 @@ def create_crowded():
     return jsonify(crowded.todict()), 201
 
 @routes.route('/crowded', methods=['GET'])
+@jwt_required()
 def get_crowdeds():
     crowdeds = Crowded.query.all()
     return jsonify([crowded.todict() for crowded in crowdeds]), 200
 
 @routes.route('/crowded/<int:id>', methods=['GET'])
+@jwt_required()
 def get_crowded(id):
     crowded = Crowded.query.get(id)
     if crowded is None:
@@ -123,6 +132,7 @@ def get_crowded(id):
     return jsonify(crowded.todict()), 200
 
 @routes.route('/crowded/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_crowded(id):
     
     crowded = Crowded.query.get(id)
@@ -137,6 +147,7 @@ def update_crowded(id):
     return jsonify(crowded.todict()), 200
 
 @routes.route('/crowded/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_crowded(id):
     crowded = Crowded.query.get(id)
     if crowded is None:
@@ -153,6 +164,7 @@ def delete_crowded(id):
 # ================== GUARDPOST ==================
 
 @routes.route('/guardpost', methods=['POST'])
+@jwt_required()
 def create_guardpost():
     data = request.get_json()
     guardpost = GuardPost(name=data['name'])
@@ -161,11 +173,13 @@ def create_guardpost():
     return jsonify(guardpost.todict()), 201
 
 @routes.route('/guardpost', methods=['GET'])
+@jwt_required()
 def get_guardposts():
     guardposts = GuardPost.query.all()
     return jsonify([guardpost.todict() for guardpost in guardposts]), 200
 
 @routes.route('/guardpost/<int:id>', methods=['GET'])
+@jwt_required()
 def get_guardpost(id):
     guardpost = GuardPost.query.get(id)
     if guardpost is None:
@@ -174,6 +188,7 @@ def get_guardpost(id):
     return jsonify(guardpost.todict()), 200
 
 @routes.route('/guardpost/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_guardpost(id):
     
     guardpost = GuardPost.query.get(id)
@@ -187,6 +202,7 @@ def update_guardpost(id):
     return jsonify(guardpost.todict()), 200
 
 @routes.route('/guardpost/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_guardpost(id):
     guardpost = GuardPost.query.get(id)
     if guardpost is None:

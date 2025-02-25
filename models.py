@@ -13,6 +13,9 @@ class User(db.Model):
             'email': self.email,
             'passkey': self.passkey
         }
+        
+    def check_password(self, password):
+        return self.passkey == password
 
 class Region(db.Model):
     id = db.Column(db.Integer, primary_key=True)

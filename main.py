@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from config import Config as C
 from models import db
 from routes import routes as api
+from auth import routes as auth, jwt
 
 app = Flask(__name__)
 app.config.from_object(C)
@@ -14,11 +15,15 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 db.init_app(app)
+jwt.init_app(app)
 
 with app.app_context():
     db.create_all()
-    
+
+app.register_blueprint(auth)    
 app.register_blueprint(api)
+
+
 @app.route('/')
 def index():
     return "Selamat datang pengunjung, awokwok"
