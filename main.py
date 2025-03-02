@@ -1,12 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 from flask_sqlalchemy import SQLAlchemy
 
 from config import Config as C
 from models import db
 from routes import routes as api
 from auth import routes as auth, jwt
+from datafeed import data_event
 
 app = Flask(__name__)
 app.config.from_object(C)
@@ -23,6 +24,7 @@ with app.app_context():
 app.register_blueprint(auth)    
 app.register_blueprint(api)
 
+data_event(socketio=socketio)
 
 @app.route('/')
 def index():
