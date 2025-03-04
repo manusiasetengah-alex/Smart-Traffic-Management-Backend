@@ -1,33 +1,51 @@
 from flask import request
+from random import randint
+
+def cobaPredcit() -> dict:
+    try:
+        retval = {'data': [
+            {'date': '2025-03-04','val': randint(10, 20)},
+            {'date': '2025-03-04','val': randint(10, 20)},
+            {'date': '2025-03-04','val': randint(10, 20)},
+            {'date': '2025-03-04','val': randint(10, 20)}
+        ]}    
+        return retval
+    except Exception as e:
+        print("error happened", str(e))
+        return {
+            data: [{
+                'date': '2025-03-04',
+                'val': -1
+            }]
+        }
 
 def data_event(socketio):
     
-    # data crowd realtimenya bubub
     @socketio.on("crowd-realtime")
     def realtime(data):
         sender_id = request.sid
         try:
-            print("recived data", data, type(data))
-            # print("sid recieved", sender_id)
+            # print("sid recieved", sender_id)    
             
             socketio.emit("crowd-realtime", {
                 "data": data
-            }, room=None)
+            })
             
+            predicted_data = cobaPredcit()
             socketio.emit("predictive-realtime", {
-                "data": data
-            }, room=None)
+                "data": predicted_data
+            })
             
         except Exception as e:
             socketio.emit("crowd-realtime", {
                 "data": str(e)
-            }, room = sid)
+            }, room = None)
             
             socketio.emit("predictive-realtime", {
                 "data": str(e)
-            }, room = sid)
+            }, room=None)
             
-            print(str(e))
+            print('error happened', str(e))
     
     # data reports bubub
     @socketio.on("data-reports")
@@ -55,6 +73,3 @@ def data_event(socketio):
             })
             print(str(e))
     
-    @socketio.on("test-usingid/<id>")
-    def testusingid(id):
-        print(id)
