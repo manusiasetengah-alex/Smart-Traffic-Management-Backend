@@ -1,14 +1,15 @@
 from flask import request
 from random import randint
+from models import crowddata
 
-def cobaPredcit() -> dict:
+def cobaPredcit() -> list:
     try:
-        retval = {'data': [
+        retval = [
             {'date': '2025-03-04','val': randint(10, 20)},
             {'date': '2025-03-04','val': randint(10, 20)},
             {'date': '2025-03-04','val': randint(10, 20)},
             {'date': '2025-03-04','val': randint(10, 20)}
-        ]}    
+        ]
         return retval
     except Exception as e:
         print("error happened", str(e))
@@ -25,10 +26,16 @@ def data_event(socketio):
     def realtime(data):
         sender_id = request.sid
         try:
-            # print("sid recieved", sender_id)    
+            
+            crowddata.insert_one(data['data'][0])
+            
+            data_db = crowddata.find({}, {'_id': 0})
+            crowdData = [i for i in data_db]
+            
+            print(len(crowdData), "has been sent")
             
             socketio.emit("crowd-realtime", {
-                "data": data
+                "data": crowdData
             })
             
             predicted_data = cobaPredcit()

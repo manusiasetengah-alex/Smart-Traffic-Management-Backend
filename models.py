@@ -1,4 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
+import pymongo
+
+mongo_client = pymongo.MongoClient("mongodb+srv://acinatra:nflRVQ8nDedqP2bw@cluster0.upuf4.mongodb.net/?retryWrites=true&w=majority")
+mongodb = mongo_client["Cluster0"]
+
+crowddata = mongodb["testcrowddata"]
 
 db = SQLAlchemy()
 
